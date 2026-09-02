@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bear Launcher — The Console Experience on PC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.4);
+      --bg: #050505;
+      --surface: #161b22;
+      --surface-subtle: #0d1117;
+      --border: #30363d;
+      --text: #f3f4f6;
+      --text-muted: #8b949e;
+      --gold: #eab308;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Unbounded', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* Background CRT texture layer - scoped behind all text (z-index: 1) */
+    .crt-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 4px, 3px 100%;
+    }
+
+    /* Ambient blue glow behind the hero */
+    .radial-glow {
+      position: absolute;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      font-size: 1.15rem;
+    }
+
+    .brand span {
+      color: var(--accent);
+      margin-left: 0.35rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent) !important;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      transition: all 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent);
+      color: #050505 !important;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background-color: var(--accent);
+      color: #050505;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      padding: 1.1rem 2.8rem;
+      border-radius: 10px;
+      box-shadow: 0 0 25px var(--accent-glow);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 800;
+      font-size: 1rem;
+      text-decoration: none;
+      padding: 1.1rem 2.2rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+
+    /* Carousel Mockup Showcase */
+    .mockup-wrap {
+      position: relative;
+      max-width: 1100px;
+      margin: 2.5rem auto 6rem;
+      padding: 0 1rem;
+      z-index: 10;
+    }
+
+    .carousel-stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .card-mockup {
+      width: 230px;
+      aspect-ratio: 2/3;
+      border-radius: 14px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+      background-color: var(--surface);
+    }
+
+    /* Scanlines applied directly across game box art */
+    .card-mockup::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background:
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+      background-size: 100% 4px, 3px 100%;
+    }
+
+    .card-mockup.side {
+      opacity: 0.35;
+      transform: scale(0.85);
+    }
+
+    .card-mockup.center {
+      width: 270px;
+      opacity: 1;
+      transform: translateY(-12px) scale(1.1);
+      border-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 40px var(--accent-glow), 0 25px 50px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Features Grid */
+    .features {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto 6rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Supporter Tier Banner */
+    .supporter-banner {
+      position: relative;
+      z-index: 10;
+      max-width: 1000px;
+      margin: 0 auto 8rem;
+      padding: 3rem 2.5rem;
+      background: radial-gradient(circle at top right, rgba(234, 179, 8, 0.08), transparent 50%), var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .supporter-info h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .supporter-info p {
+      color: var(--text-muted);
+      max-width: 550px;
+      font-size: 0.95rem;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #000;
+      font-weight: 900;
+      text-decoration: none;
+      padding: 1rem 2.2rem;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 25px rgba(234, 179, 8, 0.3);
+      transition: transform 0.15s;
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+    }
+
+    footer {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      padding: 3rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 1.5rem; }
+      nav { display: none; }
+      .carousel-stage .side { display: none; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Scanlines: z-index 1 (sits safely behind all z-index 10 content) -->
+  <div class="crt-overlay"></div>
+  <div class="radial-glow"></div>
+
+  <header>
+    <a href="#" class="brand">
+      <svg width="30" height="30" viewBox="0 0 100 100" fill="none" style="filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));">
+        <path d="M18 18 L34 14 L28 32 Z" fill="#38bdf8" opacity="0.85" />
+        <path d="M82 18 L66 14 L72 32 Z" fill="#38bdf8" opacity="0.85" />
+        <polygon points="50,18 32,34 68,34" fill="#38bdf8" />
+        <polygon points="32,34 14,52 38,58" fill="#38bdf8" opacity="0.75" />
+        <polygon points="68,34 86,52 62,58" fill="#38bdf8" opacity="0.75" />
+        <polygon points="32,34 68,34 50,68" fill="#38bdf8" opacity="0.9" />
+        <polygon points="38,58 50,68 62,58 50,86" fill="#38bdf8" />
+        <rect x="36" y="44" width="4" height="4" fill="#050505" />
+        <rect x="60" y="44" width="4" height="4" fill="#050505" />
+      </svg>
+      BEAR<span>LAUNCHER</span>
+    </a>
+    <nav>
+      <a href="#features">Architecture</a>
+      <a href="#radar">Deals Radar</a>
+      <a href="#supporter">Supporter Edition</a>
+      <a href="https://github.com" target="_blank" class="nav-cta">Download</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="tag-badge">Engineered on Rust + Tauri 2.0</div>
+      <h1>THE CONSOLE FLOW YOUR PC DESERVES.</h1>
+      <p>
+        Zero telemetry. Zero web wrapper bloat. Bear Launcher indexes your multi-drive libraries, fetches high-resolution box art, tracks live historic discounts, and brings tactile controller flow to desktop gaming.
+      </p>
+      <div class="cta-group">
+        <a href="#download" class="btn-primary">Download v1.0 (Windows)</a>
+        <a href="#features" class="btn-secondary">Explore Features</a>
+      </div>
+    </section>
+
+    <!-- Carousel Mockup: Call of Duty, World of Warcraft, The Binding of Isaac -->
+    <div class="mockup-wrap">
+      <div class="carousel-stage">
+        <!-- Call of Duty -->
+        <div class="card-mockup side" style="background-image: url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1938090/library_600x900.jpg');" title="Call of Duty"></div>
+        <!-- World of Warcraft (Centered) -->
+        <div class="card-mockup center" style="background-image: url('https://images.igdb.com/igdb/image/upload/t_cover_big/co20au.jpg');" title="World of Warcraft"></div>
+        <!-- The Binding of Isaac: Rebirth -->
+        <div class="card-mockup side" style="background-image: url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/250900/library_600x900.jpg');" title="The Binding of Isaac"></div>
+      </div>
+    </div>
+
+    <!-- Feature Architecture -->
+    <section class="features" id="features">
+      <div class="feature-card">
+        <div class="feature-icon">&#9889;</div>
+        <h3>Lightweight Native Binary</h3>
+        <p>Built with Tauri and Rust. Consumes under 40MB of system memory at rest compared to Electron-based launchers that load an entire background Chromium operating stack.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">&#128269;</div>
+        <h3>Storefront Auto-Discovery</h3>
+        <p>Parses Steam manifest files across all drives and detects Battle.net installs instantly. Automatically purges redistributables, SDKs, servers, and wallpaper software.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">&#127918;</div>
+        <h3>Direct Gamepad Polling</h3>
+        <p>Built for big-screen couch gaming. Instant input response with Xbox, DualSense, and PC handheld controllers with zero third-party mapper requirements.</p>
+      </div>
+
+      <div class="feature-card" id="radar">
+        <div class="feature-icon">&#127991;</div>
+        <h3>Live Deals Radar</h3>
+        <p>Real-time price drop aggregation filtering verified titles with thousands of reviews across Humble, Fanatical, and Green Man Gaming. No 50-cent asset flips.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">&#128295;</div>
+        <h3>Target Arguments & Custom Art</h3>
+        <p>Override game artwork locally with custom files and inject engine CLI flags directly into game targets or Steam app launch protocols.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">&#128065;</div>
+        <h3>Analog CRT Emulation</h3>
+        <p>Authentic horizontal scanline rendering and chromatic aberration overlays bring retro flavor to high-DPI modern displays without blurring UI text.</p>
+      </div>
+    </section>
+
+    <!-- Supporter Edition Callout -->
+    <section class="supporter-banner" id="supporter">
+      <div class="supporter-info">
+        <span style="color: var(--gold); font-size: 0.8rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Optional Lifetime License</span>
+        <h2>Bear Launcher Pro</h2>
+        <p>Core launcher functionality is 100% free forever. Supporter licenses unlock the Cyber Gold and OLED Crimson theme engine, custom backdrops, and help fund ongoing open-source development.</p>
+      </div>
+      <a href="https://gumroad.com" target="_blank" class="btn-gold">Support for $10</a>
+    </section>
+  </main>
+
+  <footer>
+    <div>BEAR LAUNCHER &copy; 2026. Non-affiliated with Valve, Blizzard, or Activision.</div>
+    <div>Built with React, Tauri, and Rust.</div>
+  </footer>
+
+</body>
+</html>
