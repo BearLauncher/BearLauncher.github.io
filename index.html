@@ -6,17 +6,17 @@
   <title>Bear Launcher — The Console Experience on PC</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.4);
-      --bg: #050505;
-      --surface: #161b22;
-      --surface-subtle: #0d1117;
-      --border: #30363d;
-      --text: #f3f4f6;
-      --text-muted: #8b949e;
+      --accent: #27272a;
+      --accent-glow: rgba(39, 39, 42, 0.12);
+      --bg: #ebebeb;
+      --surface: #ffffff;
+      --surface-subtle: #f4f4f5;
+      --border: #d1d5db;
+      --text: #27272a;
+      --text-muted: #6b7280;
       --gold: #eab308;
     }
 
@@ -26,26 +26,20 @@
       padding: 0;
     }
 
+    /* Subtle scanlines applied directly to the background canvas */
     body {
       background-color: var(--bg);
+      background-image: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.04) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
+      background-size: 100% 4px, 3px 100%;
       color: var(--text);
-      font-family: 'Unbounded', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      letter-spacing: -0.01em;
       overflow-x: hidden;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       position: relative;
-    }
-
-    /* Background CRT texture layer - scoped strictly behind text */
-    .crt-overlay {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      background:
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%),
-        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-      background-size: 100% 4px, 3px 100%;
     }
 
     .radial-glow {
@@ -55,7 +49,7 @@
       transform: translateX(-50%);
       width: 1000px;
       height: 650px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.04) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -77,14 +71,15 @@
       gap: 1rem;
       text-decoration: none;
       color: var(--text);
-      font-weight: 900;
-      letter-spacing: 0.2em;
-      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      font-size: 1.1rem;
+      text-transform: uppercase;
     }
 
     .brand span {
       color: var(--accent);
-      margin-left: 0.35rem;
+      margin-left: 0.3rem;
     }
 
     nav {
@@ -99,7 +94,7 @@
       font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.05em;
       transition: color 0.2s;
     }
 
@@ -108,18 +103,16 @@
     }
 
     .nav-cta {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent) !important;
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: var(--surface);
+      color: var(--text) !important;
+      border: 1px solid var(--border);
       padding: 0.6rem 1.4rem;
       border-radius: 8px;
       transition: all 0.2s !important;
     }
 
     .nav-cta:hover {
-      background: var(--accent);
-      color: #050505 !important;
-      box-shadow: 0 0 20px var(--accent-glow);
+      border-color: var(--text);
     }
 
     /* Hero Section */
@@ -137,32 +130,32 @@
       align-items: center;
       gap: 0.5rem;
       font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
       padding: 0.4rem 1rem;
       border-radius: 999px;
       margin-bottom: 1.5rem;
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      font-weight: 900;
-      letter-spacing: -1.5px;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
       line-height: 1.15;
       margin-bottom: 1.5rem;
     }
 
     .hero p {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.6;
       max-width: 680px;
       margin: 0 auto 2.5rem;
-      font-weight: 400;
+      font-weight: 500;
     }
 
     .cta-group {
@@ -177,20 +170,20 @@
       align-items: center;
       gap: 0.6rem;
       background-color: var(--accent);
-      color: #050505;
-      font-weight: 900;
-      font-size: 1rem;
-      letter-spacing: 0.5px;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
       text-decoration: none;
-      padding: 1.1rem 2.8rem;
-      border-radius: 10px;
-      box-shadow: 0 0 25px var(--accent-glow);
+      padding: 1rem 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
       transition: transform 0.15s, box-shadow 0.15s;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 35px rgba(56, 189, 248, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
 
     .btn-secondary {
@@ -199,11 +192,11 @@
       gap: 0.6rem;
       background: var(--surface);
       color: var(--text);
-      font-weight: 800;
-      font-size: 1rem;
+      font-weight: 700;
+      font-size: 0.95rem;
       text-decoration: none;
-      padding: 1.1rem 2.2rem;
-      border-radius: 10px;
+      padding: 1rem 2rem;
+      border-radius: 8px;
       border: 1px solid var(--border);
       transition: border-color 0.2s, transform 0.15s;
     }
@@ -232,16 +225,18 @@
     .card-mockup {
       width: 230px;
       aspect-ratio: 2/3;
-      border-radius: 14px;
+      border-radius: 12px;
       background-size: cover;
       background-position: center;
       position: relative;
       overflow: hidden;
       border: 2px solid transparent;
       background-color: var(--surface);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    /* Scanlines applied directly to the game artwork */
+    /* Scanlines applied strictly over the game card artwork */
     .card-mockup::after {
       content: "";
       position: absolute;
@@ -249,13 +244,13 @@
       pointer-events: none;
       border-radius: inherit;
       background:
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
-        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
       background-size: 100% 4px, 3px 100%;
     }
 
     .card-mockup.side {
-      opacity: 0.35;
+      opacity: 0.45;
       transform: scale(0.85);
     }
 
@@ -263,11 +258,10 @@
       width: 270px;
       opacity: 1;
       transform: translateY(-12px) scale(1.1);
-      border-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0 40px var(--accent-glow), 0 25px 50px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     }
 
-    /* Features Grid */
+    /* Features Grid (Clean solid surfaces, no scanlines) */
     .features {
       position: relative;
       z-index: 10;
@@ -282,31 +276,32 @@
     .feature-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 2rem;
       display: flex;
       flex-direction: column;
       gap: 0.8rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     }
 
     .feature-icon {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 8px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent);
-      font-size: 1.2rem;
+      color: var(--text);
+      font-size: 1.1rem;
       margin-bottom: 0.2rem;
     }
 
     .feature-card h3 {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.01em;
     }
 
     .feature-card p {
@@ -315,28 +310,29 @@
       line-height: 1.6;
     }
 
-    /* Supporter Banner */
+    /* Supporter Banner (Clean solid surface, no scanlines) */
     .supporter-banner {
       position: relative;
       z-index: 10;
       max-width: 1000px;
       margin: 0 auto 8rem;
       padding: 3rem 2.5rem;
-      background: radial-gradient(circle at top right, rgba(234, 179, 8, 0.08), transparent 50%), var(--surface-subtle);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 2rem;
       flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
     }
 
     .supporter-info h2 {
-      font-size: 1.8rem;
-      font-weight: 900;
+      font-size: 1.6rem;
+      font-weight: 800;
       margin-bottom: 0.5rem;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.01em;
     }
 
     .supporter-info p {
@@ -348,12 +344,12 @@
     .btn-gold {
       background: var(--gold);
       color: #000;
-      font-weight: 900;
+      font-weight: 800;
       text-decoration: none;
-      padding: 1rem 2.2rem;
-      border-radius: 10px;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 25px rgba(234, 179, 8, 0.3);
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      letter-spacing: 0.03em;
+      box-shadow: 0 4px 14px rgba(234, 179, 8, 0.25);
       transition: transform 0.15s;
     }
 
@@ -385,28 +381,27 @@
 </head>
 <body>
 
-  <div class="crt-overlay"></div>
   <div class="radial-glow"></div>
 
   <header>
     <a href="#" class="brand">
-      <svg width="30" height="30" viewBox="0 0 100 100" fill="none" style="filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));">
-        <path d="M18 18 L34 14 L28 32 Z" fill="#38bdf8" opacity="0.85" />
-        <path d="M82 18 L66 14 L72 32 Z" fill="#38bdf8" opacity="0.85" />
-        <polygon points="50,18 32,34 68,34" fill="#38bdf8" />
-        <polygon points="32,34 14,52 38,58" fill="#38bdf8" opacity="0.75" />
-        <polygon points="68,34 86,52 62,58" fill="#38bdf8" opacity="0.75" />
-        <polygon points="32,34 68,34 50,68" fill="#38bdf8" opacity="0.9" />
-        <polygon points="38,58 50,68 62,58 50,86" fill="#38bdf8" />
-        <rect x="36" y="44" width="4" height="4" fill="#050505" />
-        <rect x="60" y="44" width="4" height="4" fill="#050505" />
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <path d="M18 18 L34 14 L28 32 Z" fill="#27272a" opacity="0.85" />
+        <path d="M82 18 L66 14 L72 32 Z" fill="#27272a" opacity="0.85" />
+        <polygon points="50,18 32,34 68,34" fill="#27272a" />
+        <polygon points="32,34 14,52 38,58" fill="#27272a" opacity="0.75" />
+        <polygon points="68,34 86,52 62,58" fill="#27272a" opacity="0.75" />
+        <polygon points="32,34 68,34 50,68" fill="#27272a" opacity="0.9" />
+        <polygon points="38,58 50,68 62,58 50,86" fill="#27272a" />
+        <rect x="36" y="44" width="4" height="4" fill="#ebebeb" />
+        <rect x="60" y="44" width="4" height="4" fill="#ebebeb" />
       </svg>
       BEAR<span>LAUNCHER</span>
     </a>
     <nav>
       <a href="#features">Features</a>
       <a href="#supporter">Pro</a>
-      <a href="https://github.com" target="_blank" class="nav-cta">Download</a>
+      <a href="https://github.com/BearLauncher/BearLauncher.github.io/releases/download/0.1.0/bearlauncher_0.1.0_x64-setup.exe" class="nav-cta">Download Free</a>
     </nav>
   </header>
 
@@ -418,7 +413,7 @@
         Bring all your games across multiple storefronts into one smooth, full-screen carousel. Designed for controllers, custom artwork, live game sales, and instant play.
       </p>
       <div class="cta-group">
-        <a href="#download" class="btn-primary">Download for Windows</a>
+        <a href="https://github.com/BearLauncher/BearLauncher.github.io/releases/download/0.1.0/bearlauncher_0.1.0_x64-setup.exe" class="btn-primary">Download Free for Windows</a>
         <a href="#features" class="btn-secondary">See Features</a>
       </div>
     </section>
@@ -449,7 +444,7 @@
       <div class="feature-card">
         <div class="feature-icon">&#127912;</div>
         <h3>Themes & Visual Modes</h3>
-        <p>Personalize the entire interface with vibrant neon accents, deep OLED dark modes, and toggleable retro CRT display styling.</p>
+        <p>Personalize the entire interface with clean console aesthetics, light mode canvases, and optional dark modes.</p>
       </div>
 
       <div class="feature-card">
@@ -474,11 +469,11 @@
     <!-- Supporter Edition Callout -->
     <section class="supporter-banner" id="supporter">
       <div class="supporter-info">
-        <span style="color: var(--gold); font-size: 0.8rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Supporter Upgrade</span>
-        <h2>Bear Launcher Pro</h2>
-        <p>Core launcher features are completely free. Upgrading to Pro unlocks exclusive Cyber Gold and OLED Crimson visual styles while directly supporting ongoing updates.</p>
+        <span style="color: var(--gold); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">Optional Support</span>
+        <h2>Love Bear Launcher? Unlock Pro.</h2>
+        <p>The core launcher is entirely free to download and use forever. If you want to unlock extended cosmetic themes, custom boot sequences, and support independent launcher development, you can grab a Pro license key anytime.</p>
       </div>
-      <a href="https://gumroad.com" target="_blank" class="btn-gold">Get Pro for $10</a>
+      <a href="https://4057029473975.gumroad.com/l/qxeom?wanted=true" target="_blank" class="btn-gold">Get Pro License — $10</a>
     </section>
   </main>
 
