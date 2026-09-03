@@ -26,7 +26,6 @@
       padding: 0;
     }
 
-    /* Subtle scanlines applied directly to the background canvas */
     body {
       background-color: var(--bg);
       background-image: 
@@ -115,7 +114,6 @@
       border-color: var(--text);
     }
 
-    /* Hero Section */
     .hero {
       position: relative;
       z-index: 10;
@@ -206,7 +204,6 @@
       transform: translateY(-2px);
     }
 
-    /* Carousel Mockup */
     .mockup-wrap {
       position: relative;
       max-width: 1100px;
@@ -236,7 +233,6 @@
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    /* Scanlines applied strictly over the game card artwork */
     .card-mockup::after {
       content: "";
       position: absolute;
@@ -261,7 +257,6 @@
       box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     }
 
-    /* Features Grid (Clean solid surfaces, no scanlines) */
     .features {
       position: relative;
       z-index: 10;
@@ -310,7 +305,6 @@
       line-height: 1.6;
     }
 
-    /* Supporter Banner (Clean solid surface, no scanlines) */
     .supporter-banner {
       position: relative;
       z-index: 10;
@@ -418,7 +412,6 @@
       </div>
     </section>
 
-    <!-- Carousel Showcase: Call of Duty, World of Warcraft, The Binding of Isaac -->
     <div class="mockup-wrap">
       <div class="carousel-stage">
         <div class="card-mockup side" style="background-image: url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1938090/library_600x900.jpg');" title="Call of Duty"></div>
@@ -427,7 +420,6 @@
       </div>
     </div>
 
-    <!-- User-Focused Features -->
     <section class="features" id="features">
       <div class="feature-card">
         <div class="feature-icon">&#128269;</div>
@@ -466,7 +458,6 @@
       </div>
     </section>
 
-    <!-- Supporter Edition Callout -->
     <section class="supporter-banner" id="supporter">
       <div class="supporter-info">
         <span style="color: var(--gold); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">Optional Support</span>
